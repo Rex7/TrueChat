@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">TruChat</string>
+    <string name="forgotPassword">Forgot Password?</string>
+    <string name="usernameHint">Enter Username</string>
+    <string name="passwordHint">Enter Password</string>
+    <string name="msg_token_fmt" translatable="false">InstanceID Token: %s</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="message">it a custom message for User</string>
+    <string name="name_title">Regis</string>
+    <string name="sample">sample</string>
+</resources>
