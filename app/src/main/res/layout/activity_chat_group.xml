@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="#B5A6A6"
     android:layout_height="match_parent"
     tools:context=".ChatGroup">
     <com.google.android.material.appbar.AppBarLayout
@@ -12,35 +13,67 @@
         android:fitsSystemWindows="false"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <include
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbarChatGroup"
-            layout="@layout/toolbar"
-            app:layout_scrollFlags="scroll|enterAlways"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            app:contentInsetStartWithNavigation="0dp"
+            >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/circleImage"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/ic_launcher_background"
+                    app:civ_border_color="#FF000000"
+                    app:civ_border_width="2dp" />
+                <TextView
+                    android:id="@+id/title_text"
+                    android:textSize="25sp"
+                    android:layout_toRightOf="@+id/circleImage"
+                    android:layout_toEndOf="@+id/circleImage"
+                    android:gravity="center_horizontal"
+                    android:textColor="#000"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+            </RelativeLayout>
 
-            />
+        </androidx.appcompat.widget.Toolbar>
 
 
     </com.google.android.material.appbar.AppBarLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:layout_below="@+id/appBar"
         android:id="@+id/recycleChat"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="650dp">
-
     </androidx.recyclerview.widget.RecyclerView>
     <EditText
         android:id="@+id/enterMessage"
-
         android:layout_alignParentBottom="true"
         android:layout_width="280dp"
-        android:hint="Enter Message"
+        android:hint="@string/enter_message"
         android:layout_height="wrap_content" />
     <Button
         android:id="@+id/send"
-        android:text="Send"
+        android:text="@string/send"
         android:layout_toRightOf="@+id/enterMessage"
+        android:layout_toEndOf="@+id/enterMessage"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:layout_alignBaseline="@+id/enterMessage"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+       />
 
 </RelativeLayout>

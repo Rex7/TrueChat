@@ -1,39 +1,42 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:gravity="right"
-    android:background="@drawable/rectangle"
-    android:orientation="horizontal"
+    android:layout_height="wrap_content"
     android:paddingBottom="5dp"
     android:paddingLeft="16dp"
     android:paddingRight="16dp">
 
+ <androidx.cardview.widget.CardView
+     android:layout_alignParentRight="true"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     app:cardBackgroundColor="#e3f2fd"
+     app:cardUseCompatPadding="true"
+     app:cardCornerRadius="4dp"
+     app:cardElevation="2dp"
+     android:id="@+id/item_self_card"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content">
+     <TextView
+         android:id="@+id/message"
+         android:layout_width="260dp"
+         android:layout_height="wrap_content"
+         android:layout_marginRight="10dp"
+         android:maxWidth="260dp"
+         android:gravity="left"
+         android:layout_alignParentRight="true"
+         android:textIsSelectable="true"
+         android:padding="10dp"
+         android:textColor="#000"
+         android:text="@string/message"
+         android:textSize="18sp"
+         />
+ </androidx.cardview.widget.CardView>
     <TextView
-        android:id="@+id/message"
+        android:id="@+id/chatTimeStamp"
+        android:text="@string/sample_timestamp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="#877676"
+        android:layout_below="@+id/item_self_card"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="10dp"
-        android:textIsSelectable="true"
-        android:layout_marginTop="5dp"
-        android:text="@string/message"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="10dp" />
-
-    <TextView
-        android:id="@+id/timestamp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@id/message"
-        android:layout_marginTop="2dp"
-        android:layout_below="@id/message"
-        android:padding="10dp"
-        android:textStyle="bold"
-        android:fontFamily="sans-serif"
-        android:text="@string/name_title"
-        android:textSize="16sp"
-        android:layout_alignEnd="@id/message" />
-
+        android:layout_height="wrap_content"/>
 </RelativeLayout>

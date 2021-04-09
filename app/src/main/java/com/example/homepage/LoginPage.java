@@ -42,26 +42,23 @@ public class LoginPage extends AppCompatActivity {
             requestQueue = VolleySingle.getInstance().getRequestQueue();
             if (!username.getText().toString().isEmpty() && !password.getText().toString().isEmpty()) {
                 Log.v(TAG, "not Empty");
+                Log.v("PayloadData","stringRequest");
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://rexmyapp.000webhostapp.com/login.php",
                         response -> {
                             String message = "";
-
                             JSONObject jsonObject = null;
                             try {
+                                Log.v("PayloadData","stringRequest");
                                 jsonObject = new JSONObject(response);
                                 message = jsonObject.getString("status");
-                                Log.v("payLoadData", "ob" + jsonObject.getString("name") + "status" + jsonObject.getString("status"));
+                                Log.v(TAG, "ob" + jsonObject.getString("name") + "status" + jsonObject.getString("status"));
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
 
                             try {
-
-
                                 Log.v(TAG, response);
-
-
                                 if (message.equals("successful")) {
                                     sessionManage.createSession(password.getText().toString(), username.getText().toString(),
                                             jsonObject.getString("userId"));

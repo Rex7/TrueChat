@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -47,6 +48,7 @@ public class ChatGroup extends AppCompatActivity implements View.OnClickListener
     int dataCount;
     String chatRoomName;
     String sender,receiver;
+    TextView title_text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,19 +58,23 @@ public class ChatGroup extends AppCompatActivity implements View.OnClickListener
         send = findViewById(R.id.send);
         enterMessage = findViewById(R.id.enterMessage);
         toolbar = findViewById(R.id.toolbarChatGroup);
+        title_text=findViewById(R.id.title_text);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         sender = getIntent().getExtras().getString("sender");
         receiver=getIntent().getExtras().getString("receiver");
+        String chatUserName=getIntent().getExtras().getString("name");
         sessionManage = new SessionManage(getApplicationContext());
         send.setOnClickListener(this);
+        title_text.setText(chatUserName);
+
 
         //setting toolbar
-        setSupportActionBar(toolbar);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
         //setting a empty adapter
         recyclerView.setAdapter(chatAdapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL));
         RequestQueue myRequestQueue = VolleySingle.getInstance().getRequestQueue();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://rexmyapp.000webhostapp.com/getChatMessageByUserId.php",
                 new Response.Listener<String>() {

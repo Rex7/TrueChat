@@ -29,9 +29,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolders> {
     @Override
     public int getItemViewType(int position) {
         if (Integer.parseInt(chatMessages.get(position).getReceiverID()) == Integer.parseInt(sessionManage.getUserDetail().get("userId"))) {
-            return SELF;
-        } else {
             return position;
+        } else {
+            return SELF;
         }
 
     }
@@ -51,33 +51,25 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolders> {
             itemView = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.other_chat, viewGroup, false);
         }
-
-
         return new ViewHolders(itemView);
     }
 
     @Override
     public void onBindViewHolder(ChatAdapter.ViewHolders viewHolders, int i) {
         Message message = chatMessages.get(i);
-
         viewHolders.message.setText(message.getMessage());
-        viewHolders.timestamp.setText("- " + message.getName());
-
-
     }
 
     @Override
     public int getItemCount() {
         return chatMessages.size();
     }
-
     static class ViewHolders extends RecyclerView.ViewHolder {
-        TextView message, timestamp;
+        TextView message;
 
         public ViewHolders(View view) {
             super(view);
             message = itemView.findViewById(R.id.message);
-            timestamp = itemView.findViewById(R.id.timestamp);
         }
     }
 }

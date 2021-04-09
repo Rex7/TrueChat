@@ -68,7 +68,9 @@ public class ChatMessageScreenAdapter extends RecyclerView.Adapter<ChatMessageSc
                    String userId= String.valueOf(chatDisplayArrayList.get(getAdapterPosition()).getUserId());
                     chatMessage.putExtra("sender",userId);
                     chatMessage.putExtra("receiver",receiverID);
+                    chatMessage.putExtra("name",name.getText());
                     ctx.startActivity(chatMessage);
+                    Log.v("ChatAppMessageScreen","name"+name.getText().toString());
                     Log.v("ChatAppMessageScreen","sender"+userId);
                     Log.v("ChatAppMessageScreen","receiver"+receiverID);
                 }

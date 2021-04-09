@@ -9,4 +9,9 @@
     <string name="message">it a custom message for User</string>
     <string name="name_title">Regis</string>
     <string name="sample">sample</string>
+    <string name="hey_regis_how_are_you">Hey Regis How are you</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="sample_timestamp">15:06</string>
+    <string name="enter_message">Enter Message</string>
+    <string name="send">Send</string>
 </resources>
