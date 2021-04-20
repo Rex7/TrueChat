@@ -3,6 +3,7 @@ package com.example.homepage;
 public class ChatDisplay implements Comparable<ChatDisplay> {
     private String message;
 
+
     public int getMessageID() {
         return messageID;
     }

@@ -1,7 +1,6 @@
 package com.example.homepage;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +21,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolders> {
         this.chatMessages = chatMessages;
         this.ctx = mainActivity;
         sessionManage = new SessionManage(ctx.getApplicationContext());
-
-
     }
 
     @Override
@@ -31,9 +28,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolders> {
         if (Integer.parseInt(chatMessages.get(position).getReceiverID()) == Integer.parseInt(sessionManage.getUserDetail().get("userId"))) {
             return position;
         } else {
+
             return SELF;
         }
-
     }
 
     @NonNull

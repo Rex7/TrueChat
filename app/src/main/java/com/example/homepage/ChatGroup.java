@@ -18,6 +18,10 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.installations.FirebaseInstallations;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,11 +31,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -49,24 +53,44 @@ public class ChatGroup extends AppCompatActivity implements View.OnClickListener
     String chatRoomName;
     String sender,receiver;
     TextView title_text;
+    String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_group);
         recyclerView = findViewById(R.id.recycleChat);
+        FirebaseApp.initializeApp(this);
         send = findViewById(R.id.send);
         enterMessage = findViewById(R.id.enterMessage);
         toolbar = findViewById(R.id.toolbarChatGroup);
-        title_text=findViewById(R.id.title_text);
+        title_text = findViewById(R.id.title_text);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         sender = getIntent().getExtras().getString("sender");
-        receiver=getIntent().getExtras().getString("receiver");
-        String chatUserName=getIntent().getExtras().getString("name");
+        receiver = getIntent().getExtras().getString("receiver");
+        String chatUserName = getIntent().getExtras().getString("name");
         sessionManage = new SessionManage(getApplicationContext());
         send.setOnClickListener(this);
         title_text.setText(chatUserName);
+        FirebaseInstallations.getInstance().getToken(true)
+                .addOnCompleteListener(new OnCompleteListener() {
+                    @Override
+                    public void onComplete(@NonNull Task task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("ChatGroup", "getInstanceId failed", task.getException());
+                            return;
+                        }
+
+                        // Get new Instance ID token
+                        token = task.getResult().toString();
+
+                        // Log and toast
+                        String msg = getString(R.string.msg_token_fmt, token);
+                        Log.d("MainActivityDemo", msg);
+                        Toast.makeText(ChatGroup.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
 
 
         //setting toolbar
@@ -76,8 +100,7 @@ public class ChatGroup extends AppCompatActivity implements View.OnClickListener
         recyclerView.setAdapter(chatAdapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         RequestQueue myRequestQueue = VolleySingle.getInstance().getRequestQueue();
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://rexmyapp.000webhostapp.com/getChatMessageByUserId.php",
-                new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://rexmyshop.000webhostapp.com/chat/getChatMessageByUserId.php", new Response.Listener<String>() {
 
 
             @Override
@@ -91,10 +114,10 @@ public class ChatGroup extends AppCompatActivity implements View.OnClickListener
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jobject = jsonArray.getJSONObject(i);
                             chatMessages.add(new Message(jobject.getInt("UserId"),
-                                    jobject.getString("message"), jobject.getString("name"),jobject.getString("receiverID")));
+                                    jobject.getString("message"),
+                                    jobject.getString("name"), jobject.getString("receiverID")));
                         }
                         Log.v("HomePageDemo", "ArraySize" + chatMessages.size());
-
 
                         chatAdapter = new ChatAdapter(chatMessages, ChatGroup.this);
                         recyclerView.setVisibility(View.VISIBLE);
@@ -116,7 +139,7 @@ public class ChatGroup extends AppCompatActivity implements View.OnClickListener
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String, String> data = new HashMap<>();
                 data.put("sender", sender);
-                data.put("receiver",receiver);
+                data.put("receiverID", receiver);
 
 
                 return data;
@@ -155,7 +178,7 @@ public class ChatGroup extends AppCompatActivity implements View.OnClickListener
         Log.v("payloadData", "chat messages" + chatMessages.size());
         SendRequestToServer sendRequestToServer = new SendRequestToServer(getApplicationContext(), sessionManage,
                 enterMessage.getText().toString(), recyclerView, chatAdapter, chatMessages, sender,receiver);
-        sendRequestToServer.sendToServer(dataCount, chatRoomName);
+        sendRequestToServer.sendToServer(dataCount, chatRoomName, token);
         enterMessage.setText("");
 
 

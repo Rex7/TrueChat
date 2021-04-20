@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
@@ -65,6 +66,7 @@ public class ChatMessageScreenAdapter extends RecyclerView.Adapter<ChatMessageSc
                 @Override
                 public void onClick(View view) {
                     Intent chatMessage=new Intent(ctx,ChatGroup.class);
+                    chatMessage.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                    String userId= String.valueOf(chatDisplayArrayList.get(getAdapterPosition()).getUserId());
                     chatMessage.putExtra("sender",userId);
                     chatMessage.putExtra("receiver",receiverID);

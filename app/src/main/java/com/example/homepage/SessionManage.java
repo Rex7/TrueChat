@@ -18,6 +18,7 @@ public class SessionManage {
     private static final String PHONENO = "phoneNo";
     private static final String USER_ID = "userId";
 
+
     public SessionManage(Context context) {
         this.context = context;
         sharedPreferences = context.getApplicationContext().getSharedPreferences(app, Context.MODE_PRIVATE);

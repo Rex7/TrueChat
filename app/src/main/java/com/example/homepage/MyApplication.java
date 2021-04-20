@@ -9,17 +9,11 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
         myApplication = this;
-
-
     }
-
-
     public static MyApplication getInstance() {
         return myApplication;
     }
-
     public static Context getApplicationConext() {
         return myApplication.getApplicationContext();
     }

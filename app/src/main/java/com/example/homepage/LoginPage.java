@@ -12,9 +12,11 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,18 +42,23 @@ public class LoginPage extends AppCompatActivity {
         login = findViewById(R.id.login);
         login.setOnClickListener(view -> {
             requestQueue = VolleySingle.getInstance().getRequestQueue();
+            ArrayList<User> userArrayList = new ArrayList<>();
             if (!username.getText().toString().isEmpty() && !password.getText().toString().isEmpty()) {
                 Log.v(TAG, "not Empty");
                 Log.v("PayloadData","stringRequest");
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://rexmyapp.000webhostapp.com/login.php",
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://rexmyshop.000webhostapp.com/chat/login.php",
                         response -> {
                             String message = "";
                             JSONObject jsonObject = null;
                             try {
-                                Log.v("PayloadData","stringRequest");
+                                Log.v("PayloadData", "stringRequest");
                                 jsonObject = new JSONObject(response);
                                 message = jsonObject.getString("status");
-                                Log.v(TAG, "ob" + jsonObject.getString("name") + "status" + jsonObject.getString("status"));
+                                JSONArray userList = jsonObject.getJSONArray("data");
+
+                                for (int i = 0; i < userList.length(); i++) {
+                                    userArrayList.add(new User(userList.getJSONObject(i).getString("UserId"), userList.getJSONObject(i).getString("name")));
+                                }
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -64,7 +71,9 @@ public class LoginPage extends AppCompatActivity {
                                             jsonObject.getString("userId"));
 
                                     Intent intent = new Intent(getApplicationContext(), ChatAppMessageScreen.class);
-
+                                    Bundle args = new Bundle();
+                                    intent.putParcelableArrayListExtra("userList", userArrayList);
+                                    Log.v(TAG, "length of userArrayList" + userArrayList.size());
                                     startActivity(intent);
 
 
